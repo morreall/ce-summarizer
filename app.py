@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import OpenAI
 
-API_KEY = "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"
+API_KEY = "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"
 
 client = OpenAI(api_key=API_KEY)
 
@@ -47,4 +47,5 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                 st.write("### Summary for " + audience)
                 st.write(summary)
             except Exception as e:
+
                 st.error("Error: " + str(e))
