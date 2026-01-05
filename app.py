@@ -2,25 +2,26 @@ import streamlit as st
 from openai import OpenAI
 
 # Load API key from Streamlit secrets or .env file
-def load_api_key():
-    # First try Streamlit secrets (for cloud deployment)
-    try:
-        return st.secrets["OPENAI_API_KEY"]
-    except:
-        pass
-    
-    # Fall back to .env file (for local development)
-    try:
-        with open('.env', 'r') as f:
-            for line in f:
-                if line.startswith('OPENAI_API_KEY'):
-                    key = line.split('=')[1].strip().strip('"').strip("'")
-                    return key
-    except FileNotFoundError:
-        pass
-    
-    st.error("API key not found. Please configure secrets.")
-    return None
+# Load API key from Streamlit secrets or .env file
+   def load_api_key():
+       # First try Streamlit secrets (for cloud deployment)
+       try:
+           return st.secrets["OPENAI_API_KEY"]
+       except:
+           pass
+       
+       # Fall back to .env file (for local development)
+       try:
+           with open('.env', 'r') as f:
+               for line in f:
+                   if line.startswith('OPENAI_API_KEY'):
+                       key = line.split('=')[1].strip().strip('"').strip("'")
+                       return key
+       except FileNotFoundError:
+           pass
+       
+       st.error("API key not found. Please configure secrets.")
+       return None
 
 # Initialize OpenAI client
 api_key = load_api_key()
@@ -134,4 +135,5 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                 st.error("Error generating summary: " + str(e))
 
 st.write("---")
+
 st.caption("This tool uses AI to translate technical health economics outputs. Always verify summaries against source data before use in official communications.")
