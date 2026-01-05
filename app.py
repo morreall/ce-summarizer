@@ -46,22 +46,3 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                 st.write(summary)
             except Exception as e:
                 st.error("Error: " + str(e))
-```
-
-5. **Make sure there's nothing after the last line** (`st.error("Error: " + str(e))`)
-
-6. Click **"Commit changes"**
-
-7. Click **"Commit changes"** again
-
----
-
-## **Then Check Streamlit Secrets**
-
-1. Go to share.streamlit.io
-
-2. Click on your app → **Settings** → **Secrets**
-
-3. Make sure it contains:
-```
-   OPENAI_API_KEY = "sk-proj-your-actual-new-key"
