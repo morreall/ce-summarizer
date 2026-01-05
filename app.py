@@ -1,9 +1,7 @@
 import streamlit as st
 from openai import OpenAI
 
-API_KEY = "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"
-
-client = OpenAI(api_key=API_KEY)
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 st.set_page_config(page_title="CE Summarizer", page_icon="📊", layout="wide")
 st.title("Cost-Effectiveness Plain Language Summarizer")
@@ -47,6 +45,27 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                 st.write("### Summary for " + audience)
                 st.write(summary)
             except Exception as e:
-
                 st.error("Error: " + str(e))
+```
 
+5. Click **"Commit changes"**
+
+6. Click **"Commit changes"** again
+
+**Notice:** This code has NO API key in it. The key will be stored safely in Streamlit's secrets.
+
+---
+
+### Step 3: Add your API key to Streamlit Secrets
+
+1. Go to share.streamlit.io
+
+2. Find your app and click on it (or click the three dots menu)
+
+3. Click **"Settings"**
+
+4. Click **"Secrets"** in the left sidebar
+
+5. In the text box, type exactly this (replace with your actual new key):
+```
+OPENAI_API_KEY = "sk-proj-your-new-key-here"
