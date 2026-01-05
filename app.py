@@ -2,7 +2,7 @@ import streamlit as st
 from openai import OpenAI
 
 # PASTE YOUR API KEY BETWEEN THE QUOTES BELOW
-API_KEY = "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"
+API_KEY = "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"
 
 # Initialize OpenAI client
 client = OpenAI(api_key=API_KEY)
@@ -110,3 +110,4 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
 
 st.write("---")
 st.caption("This tool uses AI to translate technical health economics outputs. Always verify summaries against source data.")
+
