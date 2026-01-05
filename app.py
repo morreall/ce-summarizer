@@ -1,32 +1,11 @@
 import streamlit as st
 from openai import OpenAI
 
-# Load API key from Streamlit secrets or .env file
-# Load API key from Streamlit secrets or .env file
-   def load_api_key():
-       # First try Streamlit secrets (for cloud deployment)
-       try:
-           return st.secrets["OPENAI_API_KEY"]
-       except:
-           pass
-       
-       # Fall back to .env file (for local development)
-       try:
-           with open('.env', 'r') as f:
-               for line in f:
-                   if line.startswith('OPENAI_API_KEY'):
-                       key = line.split('=')[1].strip().strip('"').strip("'")
-                       return key
-       except FileNotFoundError:
-           pass
-       
-       st.error("API key not found. Please configure secrets.")
-       return None
+# PASTE YOUR API KEY BETWEEN THE QUOTES BELOW
+API_KEY = "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"
 
 # Initialize OpenAI client
-api_key = load_api_key()
-if api_key:
-    client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=API_KEY)
 
 # Page configuration
 st.set_page_config(
@@ -55,14 +34,13 @@ with col2:
         "Who is this summary for?",
         options=[
             "Executive Leadership",
-            "Payer/Formulary Committee", 
+            "Payer/Formulary Committee",
             "Clinical Team",
             "HTA Submission Reviewer",
             "Patient Advocacy Group"
         ]
     )
-    
-    # Show description of selected audience
+
     if audience == "Executive Leadership":
         st.info("Focus on strategic implications and bottom-line recommendations.")
     elif audience == "Payer/Formulary Committee":
@@ -73,22 +51,18 @@ with col2:
         st.info("Stress methodological robustness and uncertainty handling.")
     else:
         st.info("Explain results in accessible terms focused on quality of life.")
-    
+
     additional_context = st.text_area(
         "Additional context (optional):",
         height=100,
         placeholder="E.g., therapeutic area, comparator..."
     )
 
-# Generate button
 if st.button("Generate Summary", type="primary", use_container_width=True):
-    
+
     if not he_results.strip():
         st.warning("Please paste your health economics results first.")
-    elif not api_key:
-        st.error("API key not configured. Please check your .env file.")
     else:
-        # Build the prompt based on audience
         if audience == "Executive Leadership":
             audience_instruction = "You are translating health economics results for C-suite executives. Focus on clear recommendations, strategic implications, key risks, and bottom-line budget figures. Avoid jargon. Lead with the recommendation. Be concise and decisive."
         elif audience == "Payer/Formulary Committee":
@@ -99,13 +73,13 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
             audience_instruction = "You are preparing a summary for an HTA agency reviewer like NICE or ICER. Focus on methodological approach, handling of uncertainty (PSA, scenarios), key limitations, and robustness of the base case. Be precise and technical."
         else:
             audience_instruction = "You are explaining health economics results to patient advocates. Focus on what the treatment means for quality of life, why cost matters for access, and what uncertainty means for individual patients. Avoid all jargon. Use everyday language."
-        
+
         context_text = ""
         if additional_context.strip():
             context_text = "Additional context: " + additional_context
-        
+
         full_prompt = audience_instruction + "\n\nHEALTH ECONOMICS RESULTS TO SUMMARIZE:\n" + he_results + "\n\n" + context_text + "\n\nProvide a clear, well-structured summary in 2-4 paragraphs. Start with the most important takeaway for this audience."
-        
+
         with st.spinner("Generating summary..."):
             try:
                 response = client.chat.completions.create(
@@ -116,13 +90,13 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                     max_tokens=1000,
                     temperature=0.7
                 )
-                
+
                 summary = response.choices[0].message.content
-                
+
                 st.write("---")
                 st.write("### Summary for " + audience)
                 st.write(summary)
-                
+
                 st.write("---")
                 st.download_button(
                     label="Download Summary as Text File",
@@ -130,10 +104,9 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                     file_name="ce_summary.txt",
                     mime="text/plain"
                 )
-                
+
             except Exception as e:
                 st.error("Error generating summary: " + str(e))
 
 st.write("---")
-
-st.caption("This tool uses AI to translate technical health economics outputs. Always verify summaries against source data before use in official communications.")
+st.caption("This tool uses AI to translate technical health economics outputs. Always verify summaries against source data.")
