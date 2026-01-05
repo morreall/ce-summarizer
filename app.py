@@ -48,24 +48,20 @@ if st.button("Generate Summary", type="primary", use_container_width=True):
                 st.error("Error: " + str(e))
 ```
 
-5. Click **"Commit changes"**
+5. **Make sure there's nothing after the last line** (`st.error("Error: " + str(e))`)
 
-6. Click **"Commit changes"** again
+6. Click **"Commit changes"**
 
-**Notice:** This code has NO API key in it. The key will be stored safely in Streamlit's secrets.
+7. Click **"Commit changes"** again
 
 ---
 
-### Step 3: Add your API key to Streamlit Secrets
+## **Then Check Streamlit Secrets**
 
 1. Go to share.streamlit.io
 
-2. Find your app and click on it (or click the three dots menu)
+2. Click on your app → **Settings** → **Secrets**
 
-3. Click **"Settings"**
-
-4. Click **"Secrets"** in the left sidebar
-
-5. In the text box, type exactly this (replace with your actual new key):
+3. Make sure it contains:
 ```
-OPENAI_API_KEY = "sk-proj-your-new-key-here"
+   OPENAI_API_KEY = "sk-proj-your-actual-new-key"
